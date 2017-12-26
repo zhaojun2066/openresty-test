@@ -5,6 +5,7 @@ local getBody = function()
     ngx.say("hello,",body_data)
 end
 
+
 getBody()
 --print hello ,nil
 

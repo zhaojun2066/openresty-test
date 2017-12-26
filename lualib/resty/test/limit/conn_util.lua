@@ -38,7 +38,7 @@ function _CONN.incoming()
     end
 end
 
-function _CONN.leaving()
+function _CONN.leaving() --完成从shared_dict 对应的key 减1
     local ctx = ngx.ctx
     local key = ctx.limit_conn_key
     if key then
