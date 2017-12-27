@@ -14,11 +14,22 @@
           "url": "/hello/v1",
           "name": ""
         }
+      },
+      {
+        "data": [
+          "2",
+          "4",
+          "56"
+        ],
+        "experiment": {
+          "url": "/hello/v2",
+          "name": ""
+        }
       }
     ],
     "upstream": "up_user_tomcat",
     "default_experiment": {
-      "url": "/hello/v1",
+      "url": "/hello/v0",
       "name": ""
     }
   },
@@ -36,11 +47,21 @@
           "url": "/hello/v1",
           "name": ""
         }
+      },
+      {
+        "data": {
+          "min": 21,
+          "max": 30
+        },
+        "experiment": {
+          "url": "/hello/v2",
+          "name": ""
+        }
       }
     ],
     "upstream": "up_user_tomcat",
     "default_experiment": {
-      "url": "/hello/v1",
+      "url": "/hello/v0",
       "name": ""
     }
   },

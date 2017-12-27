@@ -48,7 +48,7 @@ if not key_value then
 end
 
 if strategy_name == "tail" then
-    local tail_value = ngx.re.sub(key_value,-2) --sub last one
+    local tail_value = string.sub(key_value,-2) --sub last one
     if tail_value then
         local exp = strategy_content[tail_value]
         if not exp then
