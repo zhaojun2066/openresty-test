@@ -7,9 +7,9 @@ local _M = {
 }
 
 
-local function tailConfig(strategy_content)
+local function tail_config(strategy_content)
+    local s_c={}
     if strategy_content then
-        local s_c;
         for key,value in pairs(strategy_content) do
             local data = value["data"]
             local exp = value["experiment"]
@@ -19,14 +19,14 @@ local function tailConfig(strategy_content)
                 end
             end
         end
-        -- 重新复
-        strategy_content = s_c
     end
+    return s_c
 end
 
-local function whiteConfig(strategy_content)
+local function white_config(strategy_content)
+    local s_c={}
     if strategy_content then
-        local s_c;
+
         for key,value in pairs(strategy_content) do
             local data = value["data"]
             local exp = value["experiment"]
@@ -36,9 +36,8 @@ local function whiteConfig(strategy_content)
                 end
             end
         end
-        -- 重新复
-        strategy_content = s_c
     end
+    return s_c
 end
 
 -- 存储配置信息的json
@@ -58,16 +57,19 @@ function _M.init(jsonfile)
             --ngx.log(ngx.ERR,"content , ",content)
             config = json_decode(content)
             if config then
-                for k,v in pairs(configJson) do
+                for k,v in pairs(config) do
+                    --ngx.log(ngx.ERR,"k-> , ",k)
                     local strategy_name = v["strategy_name"]
                     -- tail
                     if strategy_name and strategy_name == "tail" then
                         local strategy_content = v["strategy_content"]
-                        tailConfig(strategy_content)
+                        local s_c= tail_config(strategy_content)
+                        config[k]["strategy_content"] = s_c
 
                     elseif strategy_name and strategy_name == "white" then
                         local strategy_content = v["strategy_content"]
-                        whiteConfig(strategy_content)
+                        local s_c= white_config(strategy_content)
+                        config[k]["strategy_content"] = s_c
                     end
                 end
             end
@@ -81,7 +83,7 @@ function _M.init(jsonfile)
 end
 
 
-function _M.getConfig()
+function _M.get_config()
     return config
 end
 
@@ -97,14 +99,25 @@ function _M.check_default_experiment(strategy_name,strategy_content)
     if not strategy_content then
         return false
     end
+
+    return true
 end
 
 
 function _M.forward_experiment(experiment,url_args)
     local url = experiment["url"]
-    ngx.location.capture(
+    ngx.log(ngx.ERR,"debug_url-> ",url)
+    local res = ngx.location.capture(
         url, {args=url_args}
     )
+    ngx.say(res.body)
+   -- return
+
+    --[[ngx.location.capture_multi(
+        {
+            {url,{args=url_args}}
+        }
+    )]]
 end
 
 return _M

@@ -14,7 +14,7 @@ local ERR = ngx.ERR
 local status,err = strategy.init("/home/jufeng/mai/openresty-test/ab-test/conf/strategy.json")
 if status then
     --全局work 共享分流策略配置
-    strategyConfig =  strategy.getConfig()
+    strategyConfig =  strategy.get_config()
 else
     log(ERR,"get strategy config err , ",err)
 end

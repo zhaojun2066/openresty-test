@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{YYYY-MM-dd HH:mm:ss} [%t] %-5p %c{1}:%L - %msg%n" />
+        </Console>
+
+        <RollingFile name="RollingFile" filename="logs/diviner-manager.log"
+                     filepattern="${logPath}/%d{YYYYMMddHHmmss}-uc.log">
+            <PatternLayout pattern="%d{YYYY-MM-dd HH:mm:ss} [%t] %-5p %c{1}:%L - %msg%n" />
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="20" />
+        </RollingFile>
+
+    </Appenders>
+    <Loggers>
+        <Root level="DEBUG">
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="RollingFile" />
+        </Root>
+        <logger name="org.spring" level="DEBUG" additivity="true">
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="RollingFile" />
+        </logger>
+        <logger name="org.springframework" level="DEBUG" additivity="true">
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="RollingFile" />
+        </logger>
+        <logger name="org.springframework.security" level="ALL" additivity="true">
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="RollingFile" />
+        </logger>
+        <logger name="org.springframework.security.oauth2" level="ALL" additivity="true">
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="RollingFile" />
+        </logger>
+    </Loggers>
+
+
+</Configuration>

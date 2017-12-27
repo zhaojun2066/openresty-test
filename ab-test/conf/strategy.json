@@ -51,20 +51,28 @@
     "strategy_content": [
       {
         "data": [
-          "",
-          "",
-          "",
-          ""
+          "120",
+          "125"
         ],
         "experiment": {
           "url": "/hello/v1",
+          "name": ""
+        }
+      },
+      {
+        "data": [
+          "130",
+          "135"
+        ],
+        "experiment": {
+          "url": "/hello/v2",
           "name": ""
         }
       }
     ],
     "upstream": "up_user_tomcat",
     "default_experiment": {
-      "url": "/hello/v1",
+      "url": "/hello/v0",
       "name": ""
     }
   },

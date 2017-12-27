@@ -11,84 +11,100 @@
    白名单机制
 
    分流json：
-     切分随机：
      {
-         "name":"random"
-         "content":[
-            {
-                "url":"/hello/v1",
-                "name":"",
-                "flow":"0.2"
-            },
-            {
-                "name":"",
-                "url":"/hello/v2",
-                "flow":"0.8"
-            }
-         ]
-      }
-     白名单
-     {
-        "name":"white",
-        "content":[
-            {
-                "data":["","","",""],
-                "experiment": {
-                     "url":"/hello/v1",
-                     "name":""
-                 }
-            }
-        ]
-     }
-
-     分段：包含上下界的
-     {
-         "name":"range",
-         "content":[
-             {
-                 "data":{"min":10,"max":20},
-                 "experiment": {
-                      "url":"/hello/v1",
-                      "name":""
-                  }
+       "100020": {
+         "lid": "100020",
+         "key": "userid",
+         "strategy_name": "tail",
+         "strategy_content": [
+           {
+             "data": [
+               "1",
+               "3",
+               "5"
+             ],
+             "experiment": {
+               "url": "/hello/v1",
+               "name": ""
              }
-         ]
-     }
-
-     末尾:
-
-      {
-         "name":"tail",
-         "content":[
-              {
-                  "data":["","",""],
-                  "experiment": {
-                       "url":"/hello/v1",
-                       "name":""
-                   }
-              }
-          ]
-      }
-
-
-      demo json :
-     {
-       "lid":"100020",
-       "key":"userid",
-       "strategy":{
-           "name":"tail",
-           "content":[
-                {
-                    "data":["","",""],
-                    "experiment": {
-                         "url":"/hello/v1",
-                         "name":""
-                     }
-                }
-            ]
-        }
-       "upstream":"up_user_tomcat",
-        default_experiment:{
-             "url":"/hello/v1"
-        }
+           }
+         ],
+         "upstream": "up_user_tomcat",
+         "default_experiment": {
+           "url": "/hello/v1",
+           "name": ""
+         }
+       },
+       "100021": {
+         "lid": "100021",
+         "key": "userid",
+         "strategy_name": "range",
+         "strategy_content": [
+           {
+             "data": {
+               "min": 10,
+               "max": 20
+             },
+             "experiment": {
+               "url": "/hello/v1",
+               "name": ""
+             }
+           }
+         ],
+         "upstream": "up_user_tomcat",
+         "default_experiment": {
+           "url": "/hello/v1",
+           "name": ""
+         }
+       },
+       "100022": {
+         "lid": "100022",
+         "key": "userid",
+         "strategy_name": "white",
+         "strategy_content": [
+           {
+             "data": [
+               "",
+               "",
+               "",
+               ""
+             ],
+             "experiment": {
+               "url": "/hello/v1",
+               "name": ""
+             }
+           }
+         ],
+         "upstream": "up_user_tomcat",
+         "default_experiment": {
+           "url": "/hello/v1",
+           "name": ""
+         }
+       },
+       "100023": {
+         "lid": "100023",
+         "key": "userid",
+         "strategy_name": "random",
+         "strategy_content":[
+           {
+             "data": 0.5,
+             "experiment": {
+               "url": "/hello/v1",
+               "name": ""
+             }
+           },
+           {
+             "data": 0.5,
+             "experiment": {
+               "url": "/hello/v2",
+               "name": ""
+             }
+           }
+         ],
+         "upstream": "up_user_tomcat",
+         "default_experiment": {
+           "url": "/hello/v1",
+           "name": ""
+         }
+       }
      }
