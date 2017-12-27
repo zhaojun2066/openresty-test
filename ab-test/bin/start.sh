@@ -7,10 +7,10 @@ nginx_progress=`ps -ef|grep "nginx" |wc -l`
 if [ $nginx_progress -gt 1 ]
 then
     echo "nginx 已经启动,开始重启nginx"
-    $OPENRESTY_INSTALL_PATH/nginx/sbin/nginx  -c  /home/jufeng/mai/openresty-test/basic-test/conf/nginx.conf -s reload
+    $OPENRESTY_INSTALL_PATH/nginx/sbin/nginx  -c  /home/jufeng/mai/openresty-test/ab-test/conf/nginx.conf -s reload
 else
     echo "nginx 没有启动,开始启动nginx"
-    $OPENRESTY_INSTALL_PATH/nginx/sbin/nginx  -c  /home/jufeng/mai/openresty-test/basic-test/conf/nginx.conf
+    $OPENRESTY_INSTALL_PATH/nginx/sbin/nginx  -c  /home/jufeng/mai/openresty-test/ab-test/conf/nginx.conf
 fi
 
 nginx_progress=`ps -ef|grep "nginx" |wc -l`

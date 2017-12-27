@@ -1,0 +1,94 @@
+
+
+1、统一接口到/ab,
+2、/ab 检查参数，查看对应分流测量，找到对应实验接口，和对应upstream 然后capture过去
+
+
+3、分流策略：
+   切分随机分流
+   分段分流
+   尾数分流
+   白名单机制
+
+   分流json：
+     切分随机：
+     {
+         "name":"random"
+         "content":[
+            {
+                "url":"/hello/v1",
+                "name":"",
+                "flow":"0.2"
+            },
+            {
+                "name":"",
+                "url":"/hello/v2",
+                "flow":"0.8"
+            }
+         ]
+      }
+     白名单
+     {
+        "name":"white",
+        "content":[
+            {
+                "data":["","","",""],
+                "experiment": {
+                     "url":"/hello/v1",
+                     "name":""
+                 }
+            }
+        ]
+     }
+
+     分段：包含上下界的
+     {
+         "name":"range",
+         "content":[
+             {
+                 "data":{"min":10,"max":20},
+                 "experiment": {
+                      "url":"/hello/v1",
+                      "name":""
+                  }
+             }
+         ]
+     }
+
+     末尾:
+
+      {
+         "name":"tail",
+         "content":[
+              {
+                  "data":["","",""],
+                  "experiment": {
+                       "url":"/hello/v1",
+                       "name":""
+                   }
+              }
+          ]
+      }
+
+
+      demo json :
+     {
+       "lid":"100020",
+       "key":"userid",
+       "strategy":{
+           "name":"tail",
+           "content":[
+                {
+                    "data":["","",""],
+                    "experiment": {
+                         "url":"/hello/v1",
+                         "name":""
+                     }
+                }
+            ]
+        }
+       "upstream":"up_user_tomcat",
+        default_experiment:{
+             "url":"/hello/v1"
+        }
+     }

@@ -1,0 +1,99 @@
+[
+  {
+    "lid":"100020",
+    "key":"userid",
+    "strategy":{
+      "name":"tail",
+      "content":[
+        {
+          "data":["","",""],
+          "experiment": {
+            "url":"/hello/v1",
+            "name":""
+          }
+        }
+      ]
+    },
+    "upstream":"up_user_tomcat",
+    "default_experiment":{
+      "url":"/hello/v1",
+      "name":""
+    }
+  }
+  ,
+
+  {
+    "lid":"100021",
+    "key":"userid",
+    "strategy":{
+      "name":"range",
+      "content":[
+        {
+          "data":{"min":10,"max":20},
+          "experiment": {
+            "url":"/hello/v1",
+            "name":""
+          }
+        }
+      ]
+    },
+    "upstream":"up_user_tomcat",
+    "default_experiment":{
+      "url":"/hello/v1",
+      "name":""
+    }
+  },
+
+
+  {
+    "lid":"100021",
+    "key":"userid",
+    "strategy":{
+      "name":"white",
+      "content":[
+        {
+          "data":["","","",""],
+          "experiment": {
+            "url":"/hello/v1",
+            "name":""
+          }
+        }
+      ]
+    },
+    "upstream":"up_user_tomcat",
+    "default_experiment":{
+      "url":"/hello/v1",
+      "name":""
+    }
+  },
+
+
+  {
+    "lid":"100021",
+    "key":"userid",
+    "strategy":{
+      "name":"random",
+      "content":[
+        {
+          "data":0.5,
+          "experiment": {
+            "url":"/hello/v1",
+            "name":""
+          }
+        },
+        {
+          "data":0.5,
+          "experiment": {
+            "url":"/hello/v2",
+            "name":""
+          }
+        }
+      ]
+    },
+    "upstream":"up_user_tomcat",
+    "default_experiment":{
+      "url":"/hello/v1",
+      "name":""
+    }
+  }
+]
