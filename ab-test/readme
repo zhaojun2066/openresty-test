@@ -109,4 +109,4 @@
        }
      }
 
-4、动态获取upstream server list ，目前仅支持轮询
+4、动态获取upstream server list ，server list 目前仅支持轮询
