@@ -10,6 +10,8 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 /**
  * Created by jufeng on 17-12-7.
  */
@@ -19,7 +21,16 @@ import org.springframework.context.annotation.Configuration;
 public class ConsulWeb {
 
     public static void main(String [] args){
-        SpringApplication.run(ConsulWeb.class, args);
+        /*AtomicInteger x  = new AtomicInteger();
+        for (int i =0 ;i<20;i++){
+            int a = x.incrementAndGet();
+            System.out.println("a-> "+ a);
+            int index = Math.abs(a) % 12;
+            System.out.println(index);
+        }*/
+
+
+       SpringApplication.run(ConsulWeb.class, args);
        // registerAndDe();
     }
 

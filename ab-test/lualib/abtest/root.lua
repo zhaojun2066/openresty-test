@@ -26,6 +26,11 @@ end
 local shared_config_cache = ngx.shared.my_cache_config
 local strategy_value = shared_config_cache:get("strategy_config")
 ngx.log(ngx.ERR,"debug_strategy_config->",strategy_value)
+if not strategy_value then
+    ngx.log(ngx.ERR,"debug_strategy_config->",strategy_value)
+    ngx.exit(500)
+    return
+end
 --根据lid get config
 local strategy_config = json.decode(strategy_value)
 local config = strategy_config[lid]

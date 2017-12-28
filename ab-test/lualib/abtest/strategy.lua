@@ -46,7 +46,7 @@ local config
 function _M.init(jsonfile)
     local file = io.open(jsonfile,"r")
     if not file then
-       return false,"read config json file err"
+       return false,"read strategy config json file err"
     end
     if file then
         local content = ""

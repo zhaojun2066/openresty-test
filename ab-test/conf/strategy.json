@@ -27,7 +27,7 @@
         }
       }
     ],
-    "upstream": "up_user_tomcat",
+    "upstream": "user_upstream",
     "default_experiment": {
       "url": "/hello/v0",
       "name": ""
@@ -59,7 +59,7 @@
         }
       }
     ],
-    "upstream": "up_user_tomcat",
+    "upstream": "user_upstream",
     "default_experiment": {
       "url": "/hello/v0",
       "name": ""
@@ -91,7 +91,7 @@
         }
       }
     ],
-    "upstream": "up_user_tomcat",
+    "upstream": "user_upstream",
     "default_experiment": {
       "url": "/hello/v0",
       "name": ""
@@ -117,7 +117,7 @@
         }
       }
     ],
-    "upstream": "up_user_tomcat",
+    "upstream": "user_upstream",
     "default_experiment": {
       "url": "/hello/v1",
       "name": ""
