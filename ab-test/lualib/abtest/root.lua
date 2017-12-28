@@ -13,17 +13,26 @@ local ERR = ngx.ERR
 
 local strategy = require("abtest.strategy")
 local json = require("cjson.safe")
+
 -- all args from get request_method
 --首先要获得lid
 local url_args =  ngx.req.get_uri_args();
 local lid = url_args["lid"]
+ngx.log(ngx.ERR,"debug_lid->",lid)
 if not lid then
     log(ERR,"lid is ," ,nil)
     ngx.exit(400) --request args err
 end
-
+local shared_config_cache = ngx.shared.my_cache_config
+local strategy_value = shared_config_cache:get("strategy_config")
+ngx.log(ngx.ERR,"debug_strategy_config->",strategy_value)
 --根据lid get config
-local config = strategyConfig[lid]
+local strategy_config = json.decode(strategy_value)
+local config = strategy_config[lid]
+if not config then
+    log(ERR,"lid is not found," ,nil)
+    ngx.exit(400) --request args err
+end
 local key = config["key"]  -- 分流key
 local strategy_name = config["strategy_name"] -- 策略
 local strategy_content = config["strategy_content"]
