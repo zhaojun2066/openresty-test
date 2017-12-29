@@ -10,8 +10,8 @@
 local log = ngx.log
 local ERR = ngx.ERR
 local json = require("cjson.safe")
-local strategy = require("abtest.strategy")
-local dyn_upstream = require("abtest.upstream")
+local strategy = require("abtest.conf.strategy")
+local dyn_upstream = require("abtest.conf.upstream")
 local limit_conn = require("abtest.limit_upstream_conn")
 local strategy_file = "/home/jufeng/mai/openresty-test/ab-test/conf/strategy.json"
 local upstream_file = "/home/jufeng/mai/openresty-test/ab-test/conf/upstream.json"
@@ -33,11 +33,6 @@ if init_status then
     local upstream_config =  dyn_upstream.get_config()
     if upstream_config then
         for k,v in pairs(upstream_config) do
-            --[[local method = v["method"]
-            if not  method or method=="rr" then
-                shared_config_cache:incr("index_"..k,0)
-            end]]
-            --ngx.log(ngx.ERR,"debug_up_-> ",k)
             shared_config_cache:set("up_"..k,json.encode(v),0);
         end
         -- init limit traffic for upstream
