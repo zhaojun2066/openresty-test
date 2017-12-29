@@ -8,27 +8,34 @@
 --
 local ngx = ngx
 local log = ngx.log
-local ERR = ngx.ERR
+local ERR = ERR
 
 
-local strategy = require("abtest.strategy")
 local json = require("cjson.safe")
-local limit_conn = require("abtest.limit_conn")
+local limit_upstream_conn = require("abtest.limit.limit_upstream_conn")
+local limit_all_conn = require("abtest.limit.limit_all_conn")
+local util = require("abtest.util")
+local check_default_experiment = util.check_default_experiment
+local forward_experiment = util.forward_experiment
+local ipairs = ipairs
+local tonumber = tonmber
+local substring = string.sub
+
 
 -- all args from get request_method
 --首先要获得lid
-local url_args =  ngx.req.get_uri_args();
+local url_args =  ngx.req.get_uri_args()
 local lid = url_args["lid"]
-ngx.log(ngx.ERR,"debug_lid->",lid)
+log(ERR,"debug_lid->",lid)
 if not lid then
     log(ERR,"lid is ," ,nil)
-    ngx.exit(400) --request args err
+    return ngx.exit(400) --request args err
 end
 local shared_config_cache = ngx.shared.my_cache_config
 local strategy_value = shared_config_cache:get("strategy_config")
-ngx.log(ngx.ERR,"debug_strategy_config->",strategy_value)
+log(ERR,"debug_strategy_config->",strategy_value)
 if not strategy_value then
-    ngx.log(ngx.ERR,"debug_strategy_config->",strategy_value)
+    log(ERR,"debug_strategy_config->",strategy_value)
     return ngx.exit(500)
 end
 
@@ -49,46 +56,44 @@ local upstream = config["upstream"] -- default
 url_args["upstream_backend"] = upstream
 
 
---limit traffic
-limit_conn.incoming(upstream,lid);
+--limit traffic for all request
+---limit_all_conn.incoming("total_traffic");
 
-ngx.log(ngx.ERR,"debug_strategy_name->",strategy_name)
-ngx.log(ngx.ERR,"debug_strategy_content->",json.encode(strategy_content))
-local check = strategy.check_default_experiment(strategy_name,strategy_content)
+--limit upstream traffic for lid's request
+limit_upstream_conn.incoming(upstream,lid);
+
+log(ERR,"debug_strategy_name->",strategy_name)
+log(ERR,"debug_strategy_content->",json.encode(strategy_content))
+local check = check_default_experiment(strategy_name,strategy_content)
 if not check then
-    ngx.log(ngx.ERR,"debug_check->",check)
-    return strategy.forward_experiment(default_experiment,url_args)
-
+    log(ERR,"debug_check->",check)
+    return forward_experiment(default_experiment,url_args)
 end
 
 local key_value = url_args[key]
-ngx.log(ngx.ERR,"debug_key_value->",key_value)
-ngx.log(ngx.ERR,"debug_default_url->",default_experiment["url"])
+log(ERR,"debug_key_value->",key_value)
+log(ERR,"debug_default_url->",default_experiment["url"])
 if not key_value then
-    return strategy.forward_experiment(default_experiment,url_args)
-
+    return forward_experiment(default_experiment,url_args)
 end
 
 if strategy_name == "tail" then
-    local tail_value = string.sub(key_value,-2) --sub last one
+    local tail_value = substring(key_value,-2) --sub last one
     if tail_value then
         local exp = strategy_content[tail_value]
         if not exp then
-            return strategy.forward_experiment(default_experiment,url_args)
+            return forward_experiment(default_experiment,url_args)
         else
-            return   strategy.forward_experiment(exp,url_args)
+            return forward_experiment(exp,url_args)
         end
     else
-        return strategy.forward_experiment(default_experiment,url_args)
-
+        return forward_experiment(default_experiment,url_args)
     end
-
 elseif strategy_name == "range"  then
     local key_number = tonumber(key_value)
     -- not number type
     if not key_number then
-        return  strategy.forward_experiment(default_experiment,url_args)
-
+        return  forward_experiment(default_experiment,url_args)
     end
     local status = false
     for k,v in ipairs(strategy_content) do
@@ -98,32 +103,26 @@ elseif strategy_name == "range"  then
         local max = data["max"]
         if key_number>= min and key_number<= max then
             status = true
-            return  strategy.forward_experiment(experiment,url_args)
-
+            return  forward_experiment(experiment,url_args)
         end
     end
     -- not match anyone
     if  not status then
-        return  strategy.forward_experiment(default_experiment,url_args)
+        return  forward_experiment(default_experiment,url_args)
 
     end
-
-
-
 elseif strategy_name == "white"  then
     local exp = strategy_content[key_value]
     if not exp then
-        ngx.log(ngx.ERR,"debug_exp->",exp)
-        return  strategy.forward_experiment(default_experiment,url_args)
+        log(ERR,"debug_exp->",exp)
+        return  forward_experiment(default_experiment,url_args)
 
     else
-        ngx.log(ngx.ERR,"debug_url->",exp["url"])
-        return strategy.forward_experiment(exp,url_args)
+        log(ERR,"debug_url->",exp["url"])
+        return forward_experiment(exp,url_args)
 
     end
 elseif strategy_name == "random"  then
-
 else
-    return strategy.forward_experiment(default_experiment,url_args)
-
+    return forward_experiment(default_experiment,url_args)
 end

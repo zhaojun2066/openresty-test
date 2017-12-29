@@ -88,36 +88,6 @@ function _M.get_config()
 end
 
 
-function _M.check_default_experiment(strategy_name,strategy_content)
-    if not strategy_name then
-       return false
-    end
-    if strategy_name == "no" then
-        return false
-    end
 
-    if not strategy_content then
-        return false
-    end
-
-    return true
-end
-
-
-function _M.forward_experiment(experiment,url_args)
-    local url = experiment["url"]
-    ngx.log(ngx.ERR,"debug_url-> ",url)
-    local res = ngx.location.capture(
-        url, {args=url_args}
-    )
-    ngx.say(res.body)
-   -- return
-
-    --[[ngx.location.capture_multi(
-        {
-            {url,{args=url_args}}
-        }
-    )]]
-end
 
 return _M

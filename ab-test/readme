@@ -110,3 +110,4 @@
      }
 
 4、动态获取upstream server list ，server list 目前仅支持轮询
+5、支持对每个upstream 进行并发限流，和全局并发限流

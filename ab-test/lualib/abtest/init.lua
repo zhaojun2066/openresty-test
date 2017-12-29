@@ -7,14 +7,15 @@
 --
 
 -- 初始化策略配置
+local log = ngx.log
+local ERR = ngx.ERR
 local json = require("cjson.safe")
 local strategy = require("abtest.strategy")
 local dyn_upstream = require("abtest.upstream")
-local limit_conn = require("abtest.limit_conn")
+local limit_conn = require("abtest.limit_upstream_conn")
 local strategy_file = "/home/jufeng/mai/openresty-test/ab-test/conf/strategy.json"
 local upstream_file = "/home/jufeng/mai/openresty-test/ab-test/conf/upstream.json"
-local log = ngx.log
-local ERR = ngx.ERR
+
 local shared_config_cache = ngx.shared.my_cache_config
 local status,err = strategy.init(strategy_file)
 if status then
@@ -39,7 +40,7 @@ if init_status then
             --ngx.log(ngx.ERR,"debug_up_-> ",k)
             shared_config_cache:set("up_"..k,json.encode(v),0);
         end
-        -- init limit traffic
+        -- init limit traffic for upstream
         limit_conn.init(upstream_config)
     end
 else

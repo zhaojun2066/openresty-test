@@ -3,6 +3,8 @@ local limit_conn = require "resty.limit.conn"
 local ngx = ngx
 local log = ngx.log
 local ERR = ngx.ERR
+local tonumber = toumber
+local pairs = pairs
 
 local _M = {}
 
@@ -34,8 +36,8 @@ end]]
 
 function _M.incoming(upstream_name,key)
     local limit = limit_upstream[upstream_name]
-    ngx.log(ngx.ERR,"debug_limit...upstream_name,",upstream_name)
-    ngx.log(ngx.ERR,"debug_limit...key,",key)
+    log(ERR,"debug_limit...upstream_name,",upstream_name)
+    log(ERR,"debug_limit...key,",key)
     if limit then
         local delay ,err =limit:incoming(key,true)
         if not delay then
@@ -76,9 +78,7 @@ function _M.leaving() --完成从shared_dict 对应的key 减1
                 "failed to record the connection leaving ",
                 "request: ", err)
         end
-
     end
 end
-
 
 return  _M
