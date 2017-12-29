@@ -7,22 +7,22 @@ local shared_config_cache = ngx.shared.my_cache_config
 local uri_args = ngx.req.get_uri_args()
 if not uri_args then
     ngx.log(ngx.ERR,"debug_uri_args-> is nil")
-    ngx.exit(500)
+    return ngx.exit(500)
 end
 
 local upstream_backend = uri_args["upstream_backend"]
 if not upstream_backend then
     ngx.log(ngx.ERR,"debug_get_upstream_backend-> is nil")
     --todo a upstram server and show err message
-    ngx.exit(500)
-    return
+
+
 end
 ngx.log(ngx.ERR,"debug_upstream_backend-> ",upstream_backend)
 local upstream_server_value = shared_config_cache:get("up_"..upstream_backend)
 if not upstream_server_value then
     --todo a upstram server and show err message
     ngx.log(ngx.ERR,"debug_upstream_server_value->",upstream_server_value)
-    return
+    return ngx.exit(500)
 end
 ngx.log(ngx.ERR,"debug_upstream_server_value-> ",upstream_server_value)
 local upstream_server = json.decode(upstream_server_value)

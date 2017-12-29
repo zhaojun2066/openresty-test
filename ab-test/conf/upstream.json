@@ -1,6 +1,10 @@
 {
   "user_upstream": {
     "method":"rr",
+    "traffic":{
+      "rate":1,
+      "burst":1
+    },
     "data":[
       {
         "ip":"127.0.0.1",
