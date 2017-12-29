@@ -1,3 +1,11 @@
 -- 统计流量
 --todo send mq to kafka
 
+-- ngx.var.connections_active,
+-- ngx.var.connections_reading + ngx.var.connections_writing,
+-- ngx.var.connections_reading,
+-- ngx.var.connections_writing,
+-- ngx.var.connections_waiting
+-- ngx.var.status -- http response status code
+-- ngx.var.request_time - request and response custime
+-- ngx.var.upstream_response_time send respnonse custime

@@ -2,8 +2,6 @@
 
 1、统一接口到/ab,
 2、/ab 检查参数，查看对应分流测量，找到对应实验接口，和对应upstream 然后capture过去
-
-
 3、分流策略：
    切分随机分流
    分段分流
@@ -111,3 +109,13 @@
 
 4、动态获取upstream server list ，server list 目前仅支持轮询
 5、支持对每个upstream 进行并发限流，和全局并发限流
+6、todo: get upstream from consul
+7、tod0: stat
+  -- ngx.var.connections_active,
+  -- ngx.var.connections_reading + ngx.var.connections_writing,
+  -- ngx.var.connections_reading,
+  -- ngx.var.connections_writing,
+  -- ngx.var.connections_waiting
+  -- ngx.var.status -- http response status code
+  -- ngx.var.request_time - request and response custime
+  -- ngx.var.upstream_response_time send respnonse custime
