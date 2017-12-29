@@ -8,7 +8,9 @@
 
  ## AB TEST 实践
         ab-test
-
+        1 分流策略： 分段、白名单、位数、随机、随机切分
+        2 动态配置 upstream 和 upstream balancer
+        3 可以全局限并发和为每个upstream 单独设置 并发数
 ## 全局变量检查工具
     https://github.com/openresty/nginx-devel-utils/blob/master/lua-releng
 
