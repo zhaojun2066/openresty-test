@@ -1,0 +1,1 @@
+ngx.req.set_uri("/test", true); --rewrite ^ /lua_rewrite_4 last;
