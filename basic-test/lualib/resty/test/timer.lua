@@ -4,7 +4,7 @@
 -- 它是和每个nginx work 绑定的额
 -- 但是 ngx.timer.at 自身的运行，与当前的请求并没有关系的。
 
-local delay = 5
+local delay = 5 -- in seconds
 local handler
 handler = function(premature)
     if premature then
