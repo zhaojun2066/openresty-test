@@ -3,6 +3,8 @@
 
 ## 注意
        一定在生产环境开启lua_code_cache，否则每个请求都会创建Lua VM实例。
+## lua 代码测试
+    lua-test下 是对lua的一些练习代码
 ## 基础测试代码
       basic-test
       todo: ngx.req.set_uri、ngx.redirect("http://www.jd.com?jump=1", 302)
@@ -65,3 +67,4 @@
     rewrite ^ /lua_rewrite_3;                 等价于  ngx.req.set_uri("/lua_rewrite_3", false);
     rewrite ^ /lua_rewrite_3 break;           等价于  ngx.req.set_uri("/lua_rewrite_3", false); 加 if/else判断/break/return
     rewrite ^ /lua_rewrite_4 last;            等价于  ngx.req.set_uri("/lua_rewrite_4", true);
+
