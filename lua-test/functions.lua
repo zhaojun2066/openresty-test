@@ -93,3 +93,37 @@ do
         end
     end
 end
+
+-- 非全局函数,以下都可以,
+-- table f域内的函数
+local f = {}
+f.foo = function(a)
+    -- dosomething
+end
+function f.bar(s)
+    -- do something
+end
+local s = {
+    foo = function(s)
+    -- do something
+    end
+}
+
+-- 局部函数，某个变量的函数
+local fs = function(a)
+    ---do something
+end
+
+-- 递归的局部函数，必须事先声明，否则编译到n*fact(n-1) ，会全局查找fact 函数
+local fact --- 事先声明好 fact ，防止全局查找
+fact = function (n)
+    if n == 0 then
+        return 1
+    else
+        return n*fact(n-1)
+    end
+end
+
+
+
+
